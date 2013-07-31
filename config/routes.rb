@@ -4,7 +4,7 @@ ManagerReports::Application.routes.draw do
   #get "daily_reports/help"
   #get "daily_reports/about"
   #get "daily_reports/contact"
-
+  resources :users
   root  'daily_reports#home'
   match '/signup', to: 'users#new', via:'get'
   match '/help',    to: 'daily_reports#help',    via: 'get'
