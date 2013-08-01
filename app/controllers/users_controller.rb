@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   
+  def index
+  	@users = User.all
+  end
   def show
     @user = User.find(params[:id])
   end
@@ -7,4 +10,24 @@ class UsersController < ApplicationController
   def new
   	@user = User.new
   end
+
+  def create
+  	@user = User.new(user_params)
+
+  	if @user.save
+      # sign_in @user
+  		flash[:success] = "Welcome to the Sample App"
+  		redirect_to @user #chuyen huong den trang nguoi dung
+  	else
+  		render 'new'
+  	end
+  end
+
+  private
+
+  	def user_params
+  		params.require(:user).permit(:email, :password)
+  		#khoi tao user voi cac thuoc tinh dien vao
+  	end
+
 end
