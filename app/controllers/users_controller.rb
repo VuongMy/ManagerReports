@@ -12,22 +12,20 @@ class UsersController < ApplicationController
   end
 
   def create
-  	@user = User.new(user_params)
-
-  	if @user.save
-      # sign_in @user
-  		flash[:success] = "Welcome to the Sample App"
-  		redirect_to @user #chuyen huong den trang nguoi dung
-  	else
-  		render 'new'
-  	end
+    #UserMailer.registration_confirmation(@user).deliver
+    if @user.save
+      flash[:success] = "Welcome to the Sample App"
+    	redirect_to @user
+          UserMailer.registration_confirmation(@user).deliver
+          UserMailer.send_to_admin(@user).deliver
+    else
+      render 'new'
+    end
   end
 
   private
-
   	def user_params
   		params.require(:user).permit(:email, :password)
   		#khoi tao user voi cac thuoc tinh dien vao
   	end
-
 end
