@@ -1,0 +1,14 @@
+<% provide(:title, @group.group_name) %>
+<h1><%= @group.group_name%></h1>
+<div class="container">
+  <% if @group.user.any? %>
+    <ul class="users">
+      <% @user.each do |user|%>
+        <li>
+        <%= gravatar_for user, size: 30 %>
+        <%= link_to user.email, user %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
