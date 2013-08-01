@@ -4,6 +4,7 @@
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@group) do |f| %>
+      <%= render 'shared/error_messages', object: f.object%>
       <%= f.label :group_name %>
       <%= f.text_field :group_name %>
       <%= f.submit "Create new group", class: "btn btn-large btn-primary" %>
