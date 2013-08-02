@@ -1,8 +1,22 @@
 <% provide(:title, 'User All') %>
 <h1>User All</h1>
 
-<ul class="users">
-	
-		<%= render @users %>
-	
-</ul>
+<%= will_paginate %>
+<table class="table table-bordered" >
+	<tr>
+		<td>Email</td>
+		<td>Groups</td>
+		<td>Active</td>
+		<td>Delete</td>
+	</tr>
+	<%= render @users %>
+</table>
+
+ <script type="text/javascript">
+ $(".change_group").change(function(){
+ 	var link_update = $(this).parent().parent().find("a.inactive").first(); 
+   	var path = link_update.attr("href");
+   	link_update.attr("href", path + "&&group_id=" + $(this).val());
+ });
+ </script>
+<%= will_paginate %>

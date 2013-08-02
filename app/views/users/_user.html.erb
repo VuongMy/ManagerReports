@@ -1,5 +1,24 @@
-<li>
-	<%= gravatar_for user, size: 52 %>
-	<%= link_to user.email, user %>
-	 | <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?" } %>
-</li>
+
+
+  <tr>
+  	<td>
+  		<%= gravatar_for user, size: 20 %>
+			<%= link_to user.email, new_report_path %>
+  	</td>
+    <td>
+        <%= select_tag(:group_id,options_for_select( [["Please select one", nil]]+ Group.all.collect{ |group| [group.group_name, group.id]}, user.group_id.presence || ""), class: "change_group") %>
+    </td>
+    <% if user.active %>
+      <% if user.group_id.nil? %>
+        <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, confirm: "Are you sure?", class: "inactive" %></td>
+        <% else %>
+          <td><%= link_to 'active', user_path(id:user.id, confirmed: true), method: :put, confirm: "Are you sure?", class: "inactive" %></td>
+      <% end %>
+      <% else %>
+        <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, confirm: "Are you sure?", class: "inactive" %></td>
+    <% end %>
+    <td>
+      <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?", class: "btn btn-primary" } %>
+    </td>
+ 
+  </tr>

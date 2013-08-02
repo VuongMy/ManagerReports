@@ -1,15 +1,12 @@
   	require 'securerandom'
 
   	class UserMailer < ActionMailer::Base  
-      default :from => "vuongmy91@gmail.com"  
+      default :from => "ngoduytrung2901@gmail.com"  
       
       def registration_confirmation(user)
-        @user = user
-        password = SecureRandom.urlsafe_base64(9)
-        user.password_digest = Digest::SHA1::hexdigest(password)
+        
         mail(:to => user.email,:subject => "Registered",
-        	:body => ("email: #{user.email}\n pass: #{password} \n#{user.password_digest}"))
-        user.save	
+        	:body => ("email: #{user.email}\n pass: #{user.password} \n#{user.password_digest}"))
       end
 
       def activation(user)
@@ -19,6 +16,6 @@
 
       def send_user
 
-      	mail(:to => "traidatquaytron91@gmail.com", :subject => "test1")
+      	mail(:to => "ngoduytrung2901@gmail.com", :subject => "test1")
       end  
     end  

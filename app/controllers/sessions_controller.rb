@@ -5,13 +5,15 @@ class SessionsController < ApplicationController
   	def create
   		
     	user = User.find_by(email: params[:session][:email].downcase)
-    	if user && (Digest::SHA1::hexdigest(params[:session][:password]) == user.password_digest)
-      # Sign the user in and redirect to the user's show page.
+    	if user && user.authenticate(params[:session][:password])
       		sign_in user
-      		#redirect_to user
-          render 'report_user'
+          if user.admin?
+      		  redirect_to users_path
+          else
+            render new_report_path
+          end
     	else
-      		flash[:error] = 'Invalid email/password combination' # Not quite right!
+      		flash.now[:error] = 'Invalid email/password combination' # Not quite right!
       		render 'new'
     	end
   	end

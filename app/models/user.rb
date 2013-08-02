@@ -1,10 +1,21 @@
 class User < ActiveRecord::Base
 	belongs_to :group
+
+	# validates :group_id, presence: true
+	#has_secure_password
+
 	before_save { self.email = email.downcase }
   before_create :create_remember_token
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@framgia.com+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
                     uniqueness: {case_sensitive: false}
+
+    has_secure_password
+  	#validates :password, presence: true
+  	def User.new_remember_token
+    	SecureRandom.urlsafe_base64
+  	end
+
 
   #has_secure_password
 	#validates :password, presence: true
