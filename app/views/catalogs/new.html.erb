@@ -1,0 +1,16 @@
+<h1>Create catalog</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@catalog) do |f| %>
+      <%= render 'shared/error_messages', object: f.object%>
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+
+      <%= f.label :detail%>
+      <%= f.text_area :detail%>
+
+      <%= f.submit "Create new catalog", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
