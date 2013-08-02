@@ -199,13 +199,12 @@ input {
   margin-right: 10px;
 }
 
-aside {
-  textarea {
+
+textarea {
     height: 100px;
     margin-bottom: 5px;
-    width: 270px;
-  }
 }
+
 
 .stats {
   overflow: auto;
@@ -263,4 +262,17 @@ aside {
   list-style: none;
   padding:0;
   margin:0;
+}
+#menu {
+  li{
+    position: relative;
+  }
+  
+  li:hover ul{
+    display: block;
+    margin-top:0px;
+  }
+  ul {
+    display:none;
+  }
 }
