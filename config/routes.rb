@@ -8,6 +8,7 @@ ManagerReports::Application.routes.draw do
   resources :activations, only: [:update]
   resources :users
   resources :groups
+  resources :catalogs
   root  'daily_reports#home'
   #match 'activations/:id',to: "activations#update"
   match '/signup', to: 'users#new', via: 'get'
