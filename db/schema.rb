@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130801073404) do
+ActiveRecord::Schema.define(version: 20130802064436) do
 
   create_table "groups", force: true do |t|
     t.string   "group_name"
@@ -24,12 +24,18 @@ ActiveRecord::Schema.define(version: 20130801073404) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "password"
-    t.boolean  "admin",      default: false
+    t.boolean  "admin",            default: false
     t.integer  "group_id"
+    t.string   "password_digest"
+    t.string   "remember_token"
+    t.string   "activation_token"
+    t.boolean  "active",           default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+
   add_index "users", ["group_id"], name: "index_users_on_group_id"
+
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end
