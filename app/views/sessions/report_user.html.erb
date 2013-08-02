@@ -1,0 +1,18 @@
+
+<div id="header"> 
+
+<h2>Report of <%= params[:session][:email] %></h2>
+<label for="theme">Theme:</label>
+    <% [ 'plain', 'desert', 'green', 'corporate', 'funky' ].each do |theme| %>
+      <br><%= radio_button_tag 'theme', theme, @theme == theme %>
+      <%= theme.humanize %>
+    <% end %>
+<h3>Bao cao tien do hang ngay</h3>
+ <TEXTAREA Name="content" ROWS=20 COLS=20></TEXTAREA>
+<input type="submit" value="Submit">
+</form>
+</div>
+
+
+
+

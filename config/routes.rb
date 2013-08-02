@@ -1,13 +1,18 @@
 ManagerReports::Application.routes.draw do
   get "users/new"
+  resources :sessions, only: [:new, :create, :destroy]
   #get "daily_reports/home"
   #get "daily_reports/help"
   #get "daily_reports/about"
   #get "daily_reports/contact"
+  resources :activations, only: [:update]
   resources :users
   resources :groups
   root  'daily_reports#home'
-  match '/signup', to: 'users#new', via:'get'
+  #match 'activations/:id',to: "activations#update"
+  match '/signup', to: 'users#new', via: 'get'
+  match '/signin', to: 'sessions#new', via: 'get'
+  match '/signout', to: 'sessions#destroy', via: 'delete'
   match '/help',    to: 'daily_reports#help',    via: 'get'
   match '/about',    to: 'daily_reports#about',    via: 'get'
   match '/contact',    to: 'daily_reports#contact',    via: 'get'
