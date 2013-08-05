@@ -49,6 +49,17 @@ class UsersController < ApplicationController
       @user.save
       redirect_to users_path
     end
+    if params[:removed]== "true"
+      temp=@user.group_id
+      @group = Group.find_by_id(temp)
+      if @user.id==@group.manager_id
+        @group.manager_id=nil
+        @group.save
+      end
+      @user.group_id=nil
+      @user.save
+      redirect_to group_path(temp)
+    end
   end
 
   def destroy
