@@ -29,6 +29,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    @user = User.find_by_id(params[:id])
+    if params[:removed]== "true"
+      temp=@user.group_id
+      @group = Group.find_by_id(temp)
+      if @user.id==@group.manager_id
+        @group.manager_id=nil
+        @group.save
+      end
+      @user.group_id=nil
+      @user.save
+      redirect_to group_path(temp)
+    end
+
+  end
+
   def send_activation
       generate_token(:activation_token)
       UserMailer.activation(self).deliver

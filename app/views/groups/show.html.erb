@@ -1,16 +1,35 @@
 <% provide(:title, @group.group_name) %>
 <h1><%= @group.group_name%></h1>
+<% manager=@group.manager_id%>
 <div class="container">
   <% if @group.user.any? %>
-    <ul class="users">
+    <table border='0' width='60%' >
+      <tr>
+        <td width='10%'>Avatar</td>
+        <td width='40%' align="center">Email</td>
+        <td width='10%'>Manager</td>
+        <td width='10%'>Action</td>
+      </tr>
       <% @user.each do |user|%>
-        <li>
-        <%= gravatar_for user, size: 30 %>
-        <%= link_to user.email, user %>
-        | <%= link_to 'remove' , '#'%>
-        | <%= link_to 'edit' , user_path(user)%>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
+      <tr>
+        <td><%= gravatar_for user, size: 30 %></td>
+        <td align="center"><%= link_to user.email, user %></td>
+        <td>
+          <% if user.id==manager%>
+            Yes
+          <%else%>
+            No
+          <%end%>
+        </td>
+        <td><%= link_to 'remove', user_path(id: user.id, removed: true), method: :put, confirm: "Are you sure?" %></td>
+      </tr>
+      <%end%>
+    </table>
+    <br />
+  <%end%>
+  <div id='edit_delete_group'>
+      <%= link_to 'edit', edit_group_path(@group), class:'btn btn-medium btn-primary'%>
+
+      <%= link_to 'delete', @group, method: :delete, data: {confirm: "You sure?"},class:'btn btn-medium btn-primary'%>
+    </div>
 </div>
