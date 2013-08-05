@@ -1,0 +1,26 @@
+<% provide(:title,"Create new report")%>
+<html>
+<head>
+</head>
+<body>
+  <h1>Create new report</h1>
+  <div class="row">
+    <div class="span6 offset3">
+      <%= form_for(@report) do |f| %>
+        <%= render 'shared/error_messages', object: f.object%>
+        <%= f.label "Catalog :"%>
+        <%= f.collection_select :catalog_id, Catalog.all, :id, :title , include_blank: true %>
+
+        <%= f.label "Suggest :"%>
+        <span id="suggest"></span>
+        <%= f.label "Content :"%>
+        <%= f.text_area :content %>
+
+        <label for="up">Add File attach</label>
+        <%= file_field_tag 'datafile' %>
+        <br />
+        <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</body>

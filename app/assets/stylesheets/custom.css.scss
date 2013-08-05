@@ -276,3 +276,12 @@ textarea {
     display:none;
   }
 }
+
+select {
+  option {
+    height:10px;
+    padding:0;
+  }
+  height:40px;
+  width:480px;
+}
