@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20130802065746) do
+ActiveRecord::Schema.define(version: 20130802093722) do
 
   create_table "catalogs", force: true do |t|
     t.string   "title"
@@ -24,6 +23,14 @@ ActiveRecord::Schema.define(version: 20130802065746) do
   create_table "groups", force: true do |t|
     t.string   "group_name"
     t.integer  "manager_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reports", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "catalog_id"
+    t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -41,9 +48,7 @@ ActiveRecord::Schema.define(version: 20130802065746) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-
   add_index "users", ["group_id"], name: "index_users_on_group_id"
-
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end
