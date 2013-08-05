@@ -30,14 +30,20 @@ class GroupsController < ApplicationController
 		@group = Group.find(params[:id])
 	    if @group.update_attributes(group_params)
 	      flash[:success] = "Group updated"
-	      redirect_to groups_path
+	      redirect_to @group
 	    else
 	      render 'edit'
 	    end
 	end
 
 	def destroy
-		Group.find(params[:id]).destroy
+		@group=Group.find(params[:id])
+		users = @group.user
+		users.each do |user|
+			user.group_id=nil
+			user.save
+		end
+		@group.destroy
 		flash[:success] = "Group destroyed"
 		redirect_to groups_path
 	end
@@ -45,6 +51,6 @@ class GroupsController < ApplicationController
 	private
 
 		def group_params
-			params.require(:group).permit(:group_name)
+			params.require(:group).permit(:group_name,:manager_id)
 		end
 end

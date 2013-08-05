@@ -1,6 +1,22 @@
 <% provide(:title,"Create new report")%>
 <html>
 <head>
+  <script type="text/javascript">
+$( document ).ready(function() {
+    $('#report_catalog_id').change(function() {
+        $.ajax({
+          "url": "/get_name",
+          "type": "GET",
+          "data":{"id": document.getElementById("report_catalog_id").value},
+          success:function(result){
+            alert('fsdfsdf');
+           $("#suggest").html(result);
+          }});
+   // document.getElementById("sugesst").innerHTML= document.getElementById("report_catalog_id").value;
+  });
+});
+</script>
+
 </head>
 <body>
   <h1>Create new report</h1>
