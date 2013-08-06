@@ -22,7 +22,8 @@ class UsersController < ApplicationController
 
     if @user.save
       UserMailer.registration_confirmation(@user).deliver
-      #UserMailer.activation(@user).deliver
+      UserMailer.activation(@user).deliver
+
       flash[:success] = "Welcome to the Sample App"
     	sign_in @user
       redirect_to 'reports/new'

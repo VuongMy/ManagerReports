@@ -8,7 +8,9 @@ gem 'bcrypt-ruby', '3.0.1'
 gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
-gem 'pry'
+gem "paperclip"
+gem "pry"
+
 group :development, :test do
   gem 'sqlite3', '1.3.7'
   gem 'rspec-rails', '2.13.1'
@@ -36,3 +38,5 @@ end
 group :production do
   gem 'rails_12factor', '0.0.2'
 end
+
+gem 'rufus-scheduler'
