@@ -6,8 +6,18 @@ class ReportsController < ApplicationController
 
 	def create
 		@report = Report.new(report_params)
+		if params[:datafile].present?
+			file_name =  File.basename(params[:datafile]) #File.extname(params[:datafile]))
+			directory = 'public/datas'
+			path = File.join(directory,file_name)
+	    	#File.open(path, "wb") { |f| f.write(params[:datafile].read)}
+	    	@report.file_name = file_name
+	    	@report.paths = path	
+		end
+		#@report.group_id = current_user.group_id
+	    @report.user_id = current_user.id
 		if @report.save
-
+			redirect_to user_path(current_user)
 		else
 			render 'new'
 		end
@@ -21,6 +31,6 @@ class ReportsController < ApplicationController
 
 	private
 		def report_params
-			params.require(:report).permit(:catalog_id,:content)
+			params.require(:report).permit(:catalog_id,:content, :file_name, :paths)
 		end
 end

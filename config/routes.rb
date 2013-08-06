@@ -11,7 +11,7 @@ ManagerReports::Application.routes.draw do
   resources :catalogs
   resources :reports
   root  'daily_reports#home'
-  #match 'activations/:id',to: "activations#update"
+  match '/activations', to: "activations#update", via: 'get'
   match '/signup', to: 'users#new', via: 'get'
   match '/signin', to: 'sessions#new', via: 'get'
   match '/signout', to: 'sessions#destroy', via: 'delete'
