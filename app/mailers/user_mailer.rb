@@ -22,7 +22,6 @@
       end
 
       def send_user
-
       	mail(:to => "ngoduytrung2901@gmail.com", :subject => "test1")
       end  
     end  

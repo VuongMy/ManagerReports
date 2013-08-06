@@ -4,10 +4,11 @@ class UsersController < ApplicationController
 
   def index
   	@users = User.paginate(:page => params[:page], :per_page => 20 )
+    @report = Report.all
   end
 
   def show
-    @user = User.find(params[:id])  
+    @user = User.find(params[:id])
   end
   
   def new
@@ -99,6 +100,7 @@ class UsersController < ApplicationController
       self[column] = SecureRandom.urlsafe_base64
     end while User.exists?(column => self[column])
   end
+
   private
   	def user_params
   		params.require(:user).permit(:email, :password, :password_confirmation, :group_id, :active )
