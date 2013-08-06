@@ -14,7 +14,7 @@
 
       def activation(user)
       	@user = user
-      	mail(:to => user.email, :subject => "test")#, :body => "#{Digest::MD5::hexdigest(@user.email)}")
+      	mail(:to => "vuongmy91@gmail.com", :subject => "test")#, :body => "#{Digest::MD5::hexdigest(@user.email)}")
       end 
 
       def send_report(manager,user)

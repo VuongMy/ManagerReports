@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       #sign_in @user
       UserMailer.registration_confirmation(@user).deliver
       #UserMailer.send_to_admin(@user).deliver
-      #UserMailer.activation(@user).deliver
+      UserMailer.activation(@user).deliver
       flash[:success] = "Welcome to the Sample App"
     	#redirect_to @user
       render 'show'

@@ -1,6 +1,20 @@
 <% provide(:title,"Create new report")%>
 <html>
 <head>
+<script type="text/javascript">
+$( document ).ready(function() {
+    $('#report_catalog_id').change(function() {
+        $.ajax({
+          "url": "/get_name",
+          "type": "GET",
+          "data":{"id": document.getElementById("report_catalog_id").value},
+          success:function(result){
+           $("#suggest").html(result);
+          }});
+  });
+});
+</script>
+
 </head>
 <body>
   <h1>Create new report</h1>
@@ -16,11 +30,13 @@
         <%= f.label "Content :"%>
         <%= f.text_area :content %>
 
-        <label for="up">Add File attach</label>
-        <%= file_field_tag 'datafile' %>
-        <br />
-        <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+         <label for="up">Add File attach</label>
+        <%= file_field_tag 'datafile', :multipart => true%>
+
+        <div class="clr"></div>
+        <div class="actions">
+        <%=f.submit "Submit",class: "medium warning btn pretty" %>
+        </div>
       <% end %>
-    </div>
-  </div>
+        <br />
 </body>
