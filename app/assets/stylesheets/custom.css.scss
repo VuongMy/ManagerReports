@@ -50,14 +50,8 @@ h1 {
   margin-bottom: 30px;
   text-align:center;
 }
-
 h2 {
-  font-size: 1.2em;
-  letter-spacing: -1px;
-  margin-bottom: 30px;
-  text-align: center;
-  font-weight: normal;
-  color: #999;
+  text-align:center;
 }
 p {
   font-size: 1.1em;
@@ -282,4 +276,12 @@ select {
   }
   height:40px;
   width:480px;
+}
+
+#show_report {
+  border: 1px solid $grayLighter;
+  text-align: center;
+  td {
+    border: 1px solid $grayLighter;
+  }
 }
