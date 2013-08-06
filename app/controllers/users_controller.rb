@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
-  
+
+  before_action :admin_user, only: [:index, :edit, :update, :destroy]
+
   def index
-  	@users = User.all
+  	@users = User.paginate(:page => params[:page], :per_page => 20 )
+     # @group = Group.find(:id);
   end
+
   def show
     @user = User.find(params[:id])
-    @groups = Group.all;
+   
   end
   
   def new
@@ -13,24 +17,39 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    
-    #UserMailer.registration_confirmation(@user).deliver
+    @user = User.new(params[:id])
+    @user.password = @user.password_confirmation = SecureRandom.hex(8)
+
     if @user.save
-      #sign_in @user
       UserMailer.registration_confirmation(@user).deliver
-      #UserMailer.send_to_admin(@user).deliver
       UserMailer.activation(@user).deliver
+
       flash[:success] = "Welcome to the Sample App"
-    	#redirect_to @user
-      render 'show'
+    	sign_in @user
+      redirect_to 'reports/new'
     else
       render 'new'
     end
   end
 
+  def edit
+    @user = User.find(user_params)
+  end
+
   def update
+    # binding.pry
     @user = User.find_by_id(params[:id])
+    # @user.group_id = params[group_id] if params[:group_id]
+    if params[:confirmed]=="true"
+      if params[:group_id] == nil
+        flash[:eroors] = "Group nil"
+      else
+        @user.group_id = params[:group_id]
+      end
+      @user.active="true"
+      @user.save
+      redirect_to users_path
+    end
     if params[:removed]== "true"
       temp=@user.group_id
       @group = Group.find_by_id(temp)
@@ -42,7 +61,12 @@ class UsersController < ApplicationController
       @user.save
       redirect_to group_path(temp)
     end
+  end
 
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User destroyed."
+    redirect_to users_url
   end
 
   def send_activation
@@ -57,7 +81,12 @@ class UsersController < ApplicationController
   end
   private
   	def user_params
-  		params.require(:user).permit(:email, :password)
+  		params.require(:user).permit(:email, :password, :password_confirmation, :group_id, :active )
+      # params.require(:group).permit( :group_name)
   		#khoi tao user voi cac thuoc tinh dien vao
   	end
+
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
+    end
 end
