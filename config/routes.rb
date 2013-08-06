@@ -11,13 +11,15 @@ ManagerReports::Application.routes.draw do
   resources :catalogs
   resources :reports
   root  'daily_reports#home'
-  #match 'activations/:id',to: "activations#update"
+  match '/activations', to: "activations#update", via: 'get'
   match '/signup', to: 'users#new', via: 'get'
   match '/signin', to: 'sessions#new', via: 'get'
   match '/signout', to: 'sessions#destroy', via: 'delete'
   match '/help',    to: 'daily_reports#help',    via: 'get'
   match '/about',    to: 'daily_reports#about',    via: 'get'
   match '/contact',    to: 'daily_reports#contact',    via: 'get'
+  get 'get_name', to: 'reports#get_name'
+
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

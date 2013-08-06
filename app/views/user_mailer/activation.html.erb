@@ -1,0 +1,4 @@
+
+To activate your account, please click the link below:
+<%= link_to "http://localhost:3000/"+ "#{Digest::MD5::hexdigest(@user.email)}", activations_url(@user.activation_token)%>
+
