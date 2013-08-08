@@ -1,5 +1,3 @@
-
-
   <tr>
   	<td>
   		<%= gravatar_for user, size: 20 %>
@@ -10,12 +8,12 @@
     </td>
     <% if user.active %>
       <% if user.group_id.nil? %>
-        <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, confirm: "Are you sure?", class: "inactive" %></td>
+        <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>
         <% else %>
-          <td><%= link_to 'active', user_path(id:user.id, confirmed: true), method: :put, confirm: "Are you sure?", class: "inactive" %></td>
+          <td><%= link_to 'active', user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>
       <% end %>
       <% else %>
-        <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, confirm: "Are you sure?", class: "inactive" %></td>
+        <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>
     <% end %>
     <td>
       <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?", class: "btn btn-primary" } %>

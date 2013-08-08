@@ -17,7 +17,8 @@
       def send_report(manager,user)
         @user = user
         @manager = manager
-        mail(:to => @manager.email, :subject =>"test")
+        time = Time.new
+        mail(:to => @manager.email, :subject =>"[#{@user.email}][Daily report]#{time.year}-#{time.month}-#{time.day}")
       end
 
       def send_user
