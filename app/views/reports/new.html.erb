@@ -20,7 +20,7 @@ $( document ).ready(function() {
   <h1>Create new report</h1>
   <div class="row">
     <div class="span6 offset3">
-      <%= form_for(@report) do |f| %>
+      <%= form_for(@report, :html => {:multipart => true}) do |f| %>
         <%= render 'shared/error_messages', object: f.object%>
         <%= f.label "Catalog :"%>
         <%= f.collection_select :catalog_id, Catalog.all, :id, :title , include_blank: true %>
@@ -29,14 +29,14 @@ $( document ).ready(function() {
         <span id="suggest"></span>
         <%= f.label "Content :"%>
         <%= f.text_area :content %>
-
-         <label for="up">Add File attach</label>
-        <%= file_field_tag 'datafile', :multipart => true%>
-
-        <div class="clr"></div>
-        <div class="actions">
-        <%=f.submit "Submit",class: "medium warning btn pretty" %>
+        <div class="field">
+        
+        <%= f.file_field :data %>
         </div>
-      <% end %>
+        <div class="actions">
+        <%= f.submit "Upload" %>
+        </div>
+    </div>
+    <% end %>
         <br />
 </body>

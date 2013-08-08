@@ -18,8 +18,10 @@ ManagerReports::Application.routes.draw do
   match '/help',    to: 'daily_reports#help',    via: 'get'
   match '/about',    to: 'daily_reports#about',    via: 'get'
   match '/contact',    to: 'daily_reports#contact',    via: 'get'
+  match '/home', to:'users#show', via:'get'
+  get 'file_upload', to: 'reports#file_upload'
   get 'get_name', to: 'reports#get_name'
-
+  match '/reports/new', to: 'reports#file_upload', via: 'get' 
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

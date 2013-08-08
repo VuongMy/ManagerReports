@@ -20,7 +20,7 @@
 		      			%>
 		      			<td><%= "#{a.year}-#{a.month}-#{a.day}"%></td>
 		      			<td><%= catalog.title%></td>
-		      			<td><%= report.content %></td>
+		      			<td><%= "#{report.content},file: #{report.paths}" %></td>
 	      			</tr>
 	      		<%end%>
       	<%end%>
