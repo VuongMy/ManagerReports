@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
-  before_action :admin_user, only: [:index, :edit, :update, :destroy]
-
+  before_action :admin_user, only: [:index, :destroy]
+  before_action :no_admin_user, only: [:new,:create]
   def index
   	@users = User.paginate(:page => params[:page], :per_page => 20 )
      # @group = Group.find(:id);
@@ -33,16 +33,15 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(user_params)
+    @user = User.find(params[:id])
   end
 
   def update
-    # binding.pry
     @user = User.find_by_id(params[:id])
-    # @user.group_id = params[group_id] if params[:group_id]
+    # add group
     if params[:confirmed]=="true"
       if params[:group_id] == nil
-        flash[:eroors] = "Group nil"
+        flash[:error] = "Group nil"
       else
         @user.group_id = params[:group_id]
       end
@@ -50,6 +49,7 @@ class UsersController < ApplicationController
       @user.save
       redirect_to users_path
     end
+    #remove group_id
     if params[:removed]== "true"
       temp=@user.group_id
       @group = Group.find_by_id(temp)
@@ -60,6 +60,28 @@ class UsersController < ApplicationController
       @user.group_id=nil
       @user.save
       redirect_to group_path(temp)
+    end
+    #change password
+    if params[:user]!=nil
+      if params[:user][:password]!="" && params[:user][:password_confirmation]!=""
+        if params[:user][:password].length >= 6
+          if params[:user][:password]==params[:user][:password_confirmation]
+            @user.password = @user.password_confirmation=params[:user][:password]
+            flash[:success]="Passwod updated"
+            @user.save
+            redirect_to @user
+          else
+            flash[:error]="Passwod confirmation not match"
+            render 'edit'  
+          end
+        else
+          flash[:error]="Password too short"
+          render 'edit'  
+        end
+      else
+        flash[:error]="Password/Passwod confirmation invalid"
+        render 'edit'
+      end
     end
   end
 
@@ -82,11 +104,16 @@ class UsersController < ApplicationController
   private
   	def user_params
   		params.require(:user).permit(:email, :password, :password_confirmation, :group_id, :active )
-      # params.require(:group).permit( :group_name)
-  		#khoi tao user voi cac thuoc tinh dien vao
   	end
 
     def admin_user
-      redirect_to(root_url) unless current_user.admin?
+      unless current_user.admin?
+        store_location
+        redirect_to root_url,notice: "Permission Denied"
+      end
+    end
+
+    def no_admin_user
+      redirect_to root_url, notice: "Permission Denied" unless !current_user.admin?
     end
 end
