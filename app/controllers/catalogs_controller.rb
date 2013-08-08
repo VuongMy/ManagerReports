@@ -1,4 +1,6 @@
 class CatalogsController < ApplicationController
+	before_action :admin_user, only: [:index,:new,:create,:edit,:update,:destroy]
+
 	def index
 		@catalogs=Catalog.all
 	end
@@ -43,4 +45,11 @@ class CatalogsController < ApplicationController
 		def catalog_params
 			params.require(:catalog).permit(:title,:detail)
 		end
+
+		def admin_user
+	      unless current_user.admin?
+	        store_location
+	        redirect_to root_url,notice: "Permission Denied"
+	      end
+	    end
 end

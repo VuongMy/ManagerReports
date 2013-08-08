@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+	before_action :admin_user, only:[:index,:new,:create,:update,:destroy,:show]
+
 	def index
 		@groups = Group.all
 	end
@@ -53,4 +55,11 @@ class GroupsController < ApplicationController
 		def group_params
 			params.require(:group).permit(:group_name,:manager_id)
 		end
+
+		def admin_user
+	      unless current_user.admin?
+	        store_location
+	        redirect_to root_url,notice: "Permission Denied"
+	      end
+	    end
 end

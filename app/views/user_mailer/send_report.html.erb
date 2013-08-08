@@ -1,2 +1,52 @@
-Manager : <%=@manager.email%><br />
-User    : <%=@user.email %>
+</html>
+<head>
+	<style type="text/css">
+		table {
+			table-layout: fixed;
+		}
+		td {
+			border: 1px solid #222;
+			text-align: center;
+			overflow: hidden;
+			max-width: 200px;
+			min-width: 200px;
+		}
+	</style>
+</head>
+<body>
+	<%time = Time.new%>
+	<table celpadding='0' cellspacing='0'>
+			<%catalogs = Catalog.all%>
+			<%count = catalogs.count-1%>
+
+		<%if catalogs.any?%>
+			<h2>Report of <%=@user.email%></h2>
+			<tr>
+				<td >Ngay</td>
+				<%for i in 0..count%>
+					<td ><%= catalogs[i].title%></td>
+				<%end%>
+			</tr>
+			<tr>
+				<td ><%="#{time.year}-#{time.month}-#{time.year}"%></td>
+				<%for i in 0..count%>
+					<%check=0%>
+					<%@user.report.each do |report|%>
+						<% if report.created_at.day==time.day && report.created_at.month==time.month && report.created_at.year==time.year %>
+							<%if catalogs[i].id==report.catalog_id%>
+								<td ><%=report.content%></td>
+								<%check=1%>
+							<%end%>
+						<%end%>
+					<%end%>
+					<%if check==0%>
+						<td>&nbsp;</td>
+					<%end%>
+				<%end%>
+			</tr>
+		<%else%>
+			<h2>No report available</h2>
+		<%end%>
+	</table>
+</body>
+</html>
