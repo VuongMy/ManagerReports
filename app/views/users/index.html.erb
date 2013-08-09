@@ -2,11 +2,12 @@
 <h1>User All</h1>
 
 <%= will_paginate %>
-<table class="table table-bordered" >
+<table class="table table-bordered" id="all_users">
 	<tr>
+		<td width="3%">Avatar</td>
 		<td>Email</td>
 		<td>Groups</td>
-		<td>Active</td>
+		<td>Action</td>
 		<td>Delete</td>
 	</tr>
 	<%= render @users %>

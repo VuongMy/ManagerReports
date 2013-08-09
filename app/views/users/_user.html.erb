@@ -1,16 +1,16 @@
   <tr>
+    <td><%= gravatar_for user, size: 40 %></td>
   	<td>
-  		<%= gravatar_for user, size: 20 %>
-			<%= link_to user.email, new_report_path %>
+			<%= user.email%>
   	</td>
     <td>
         <%= select_tag(:group_id,options_for_select( [["Please select one", nil]]+ Group.all.collect{ |group| [group.group_name, group.id]}, user.group_id.presence || ""), class: "change_group") %>
     </td>
     <% if user.active %>
       <% if user.group_id.nil? %>
-        <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>
+        <td class="inactive"><%= link_to 'assign group', user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>
         <% else %>
-          <td><%= link_to 'active', user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>
+          <td><%= link_to "active", user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>
       <% end %>
       <% else %>
         <td class="inactive"><%= link_to 'inactive', user_path(id:user.id, confirmed: true), method: :put, class: "inactive" %></td>

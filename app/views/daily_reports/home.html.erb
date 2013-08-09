@@ -1,13 +1,52 @@
 <% provide(:title, 'Home page') %>
-<div class="center hero-unit">
+<%if signed_in?%>
+	<html>
+	<head>
+	<script type="text/javascript">
+	$( document ).ready(function() {
+	    $('#report_catalog_id').change(function() {
+	        $.ajax({
+	          "url": "/get_name",
+	          "type": "GET",
+	          "data":{"id": document.getElementById("report_catalog_id").value},
+	          success:function(result){
+	           $("#suggest").html(result);
+	          }});
+	  });
+	});
+	</script>
 
-  <h1>
-    Welcome to systems
-  </h1>
+	</head>
+	<body>
+	  <h1>Create new report</h1>
+	  <div class="row">
+	    <div class="span6 offset3">
+	      <%= form_for(@report, :html => {:multipart => true}) do |f| %>
+	        <%= render 'shared/error_messages', object: f.object%>
+	        <%= f.label "Catalog :"%>
+	        <%= f.collection_select :catalog_id, Catalog.all, :id, :title , include_blank: true %>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
-
-</div>
-
-<%= link_to image_tag("rails.png", alt: "Rails"), 'http://rubyonrails.org/' %>
-
+	        <%= f.label "Suggest :"%>
+	        <span id="suggest"></span>
+	        <%= f.label "Content :"%>
+	        <%= f.text_area :content %>
+	        <div class="field">
+	        
+	        <%= f.file_field :data %>
+	        </div>
+	        <div class="actions">
+	        <%= f.submit "Upload" %>
+	        </div>
+	    </div>
+	    <% end %>
+	        <br />
+	</body>
+	</html>
+<%else%>
+	<div class="center hero-unit">
+	  <h1>
+	    Welcome to systems
+	  </h1>
+	  <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
+	</div>
+<%end%>
