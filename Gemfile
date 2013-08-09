@@ -40,3 +40,5 @@ group :production do
 end
 
 gem 'rufus-scheduler'
+gem 'uglifier' , '2.1.1'
+gem 'bootstrap-datepicker-rails'

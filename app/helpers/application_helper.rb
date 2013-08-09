@@ -17,4 +17,11 @@ module ApplicationHelper
 		    end
 	  	end
 	end
+
+	def auto_report_members
+		scheduler = Rufus::Scheduler.start_new
+		scheduler.every '5s' do
+    	puts "Helo"
+		end
+	end
 end

@@ -1,5 +1,6 @@
 ManagerReports::Application.routes.draw do
   get "users/new"
+  # get "users/group_list"
   resources :sessions, only: [:new, :create, :destroy]
   #get "daily_reports/home"
   #get "daily_reports/help"
@@ -21,7 +22,8 @@ ManagerReports::Application.routes.draw do
   match '/home', to:'users#show', via:'get'
   get 'file_upload', to: 'reports#file_upload'
   get 'get_name', to: 'reports#get_name'
-  match '/reports/new', to: 'reports#file_upload', via: 'get' 
+  match '/group_list', to: 'users#group_list', via: 'get'
+  match '/report_member', to: 'reports#report_member', via: 'get'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

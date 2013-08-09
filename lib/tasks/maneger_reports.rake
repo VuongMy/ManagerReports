@@ -26,7 +26,7 @@ end
 def make_groups
 	5.times do |n|
 		group_name = "group #{n+1}"
-		manager_id = n+1
+		manager_id = nil
 		Group.create!(group_name: group_name ,
 					manager_id: manager_id )
 	end
