@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-
+  before_action :sign_in_user, only: [:show,:update,:edit,:index,:destroy]
   before_action :admin_user, only: [:index, :destroy]
-  before_action :no_admin_user, only: [:new,:create]
+
   def index
   	@users = User.paginate(:page => params[:page], :per_page => 20 )
      # @group = Group.find(:id);
@@ -40,10 +40,9 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     # add group
     if params[:confirmed]=="true"
-      if params[:group_id] == nil
-        flash[:error] = "Group nil"
-      else
+      if params[:group_id] != nil
         @user.group_id = params[:group_id]
+        flash[:success] = "User changed group."
       end
       @user.active="true"
       @user.save
@@ -92,11 +91,11 @@ class UsersController < ApplicationController
   end
 
   def send_activation
-      generate_token(:activation_token)
-      UserMailer.activation(self).deliver
-    end
+    generate_token(:activation_token)
+    UserMailer.activation(self).deliver
+  end
 
-    def generate_token(column)
+  def generate_token(column)
     begin
       self[column] = SecureRandom.urlsafe_base64
     end while User.exists?(column => self[column])
@@ -109,11 +108,11 @@ class UsersController < ApplicationController
     def admin_user
       unless current_user.admin?
         store_location
-        redirect_to root_url,notice: "Permission Denied"
+        redirect_to current_user,notice: "Permission Denied"
       end
     end
 
-    def no_admin_user
-      redirect_to root_url, notice: "Permission Denied" unless !current_user.admin?
+    def sign_in_user
+      redirect_to new_session_path, notice: "Please sign in." unless signed_in?
     end
 end

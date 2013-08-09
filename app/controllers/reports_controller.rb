@@ -1,9 +1,5 @@
 class ReportsController < ApplicationController
-	def new
-		@report=Report.new
-		@catalogs=Catalog.all
-	end
-
+	before_action :sign_in_user, only:[:create]
 	def create
 		@report = Report.new(report_params)
 		if params[:report][:data].present?
@@ -34,4 +30,8 @@ class ReportsController < ApplicationController
 		def report_params
 			params.require(:report).permit(:catalog_id,:content, :file_name, :paths)
 		end
+
+		def sign_in_user
+	      redirect_to new_session_path, notice: "Please sign in." unless signed_in?
+	    end
 end
