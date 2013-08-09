@@ -1,0 +1,27 @@
+      <% times = [] %><%i = 0 %>
+        <%user.report.each do |report|%>
+          <% if report.created_at.month.to_s == params[:time_month].to_s %>
+            <% times.push(report.created_at) %>
+          <% end%>
+        <% end %>
+
+        <td><%= times[0].strftime("%d-%m-%Y") %><%= times[times.count -1].strftime("%d-%m-%Y") %></td>
+        <% count_time = times.count %><% i = 0 %>
+        <% (0..(count_time-1)).each do |i| %>
+          <tr>
+            <% for j in 0..count_catalog %>
+              <% check = 0 %>
+              <% user.report.each do |report| %>
+                <% if report.created_at.strftime("%d/%m/%Y") == times[count_time -1 -i].strftime("%d/%m/%Y") %>
+                  <% if catalogs[j].id == report.catalog_id %>
+                    <td><%= report.content%></td>
+                    <% check = 1 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% if check == 0 %>
+                <td>&nbsp;</td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>

@@ -4,12 +4,11 @@ class UsersController < ApplicationController
 
   def index
   	@users = User.paginate(:page => params[:page], :per_page => 20 )
-     # @group = Group.find(:id);
+    @report = Report.all
   end
 
   def show
     @user = User.find(params[:id])
-   
   end
   
   def new
@@ -101,6 +100,7 @@ class UsersController < ApplicationController
       self[column] = SecureRandom.urlsafe_base64
     end while User.exists?(column => self[column])
   end
+
   private
   	def user_params
   		params.require(:user).permit(:email, :password, :password_confirmation, :group_id, :active )
@@ -115,5 +115,9 @@ class UsersController < ApplicationController
 
     def sign_in_user
       redirect_to new_session_path, notice: "Please sign in." unless signed_in?
+    end
+
+    def signed_in_user
+      redirect_to signin_url, notice: "Please sign in." unless signed_in?
     end
 end

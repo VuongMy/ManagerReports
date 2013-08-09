@@ -1,8 +1,25 @@
 class ReportsController < ApplicationController
-	#before action :check_size_file, only: [:new]
+
+	def index
+		@users = User.all
+		@reports = Report.order(:id)
+    # binding.pry
+  		respond_to do |format|
+	    	format.html
+	    	format.xls do
+	    		headers["Content-disposition"] = 'inline;  filename="Dailyreport.xls"'
+	    	end
+    	 # { send_data @products.to_csv(col_sep: "\t") }
+  		end
+	end
+
 	def new
 		@report=Report.new
 		@catalogs=Catalog.all
+	end
+
+	def show
+		@user = @user = User.find(params[:id])
 	end
 
 	def create

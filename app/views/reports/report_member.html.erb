@@ -1,0 +1,106 @@
+<h1>Reports All</h1>
+  <table id="table_report" >
+      <%catalogs = Catalog.all%>
+      <%count_catalog = catalogs.count-1%>
+
+    <%if catalogs.any?%>
+      <% user=User.find_by_id(params[:user_id])%>
+      <tr>
+        <td >Tuan/Thang/Nam</td>
+        <%for i in 0..count_catalog%>
+          <td ALIGN="CENTER" ><%= catalogs[i].title%></td>
+        <%end%>
+      </tr>
+      <!-- hien thi theo thang -->
+      <% if params[:time_month].nil? %>
+        <% if params[:time_year].nil? %>
+          <%if params[:time_week].nil? %>
+
+          <% end %> <!-- end week -->
+        <% else%>
+          <% times = [] %><%i = 0 %>
+          <%user.report.each do |report|%>
+            <% if report.created_at.year.to_s == params[:time_year].to_s %>
+              <% times.push(report.created_at) %>
+            <% end%>
+          <% end %>
+          <% if times.empty?  %>
+            <td>Khong co Dailay Reports</td>
+          <% else %>
+          <% count_time = times.count %><% i = 0 %>
+          <tr>
+              <td ROWSPAN= "<%= (times.count+1) %>" WIDTH="100" ALIGN="CENTER"  >Tu <%= times[count_time -1].strftime("%d-%m-%Y") %> den <%= times[0].strftime("%d-%m-%Y") %> Email:<%= params[:email] %>
+                  Group: <%= params[:group_name] %></td>
+          </tr>
+          <% (0..(count_time-1)).each do |i| %>
+            <tr>
+              <% for j in 0..count_catalog %>
+                <% check = 0 %>
+                <% user.report.each do |report| %>
+                  <% if report.created_at.strftime("%d/%m/%Y") == times[count_time -1 -i].strftime("%d/%m/%Y") %>
+                    <% if catalogs[j].id == report.catalog_id %>
+                      <td><%= report.content%></td>
+                      <% check = 1 %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <% if check == 0 %>
+                  <td>&nbsp;</td>
+                <% end %>
+              <% end %>
+            </tr>
+          <% end %>
+          <% end %>
+        <% end %> <!-- end year-->
+      <% else %>
+      <% if params[:time_month].empty? %>
+        <tr>
+          <td>trodjngung</td>
+        </tr>
+      <% else %>
+        <% times = [] %><%i = 0 %>
+        <%user.report.each do |report|%>
+          <% if report.created_at.month.to_s == params[:time_month].to_s %>
+            <% times.push(report.created_at) %>
+          <% end%>
+        <% end %>
+        <% if times.empty? %>
+            <td>Khong co Dailay Reports</td>
+        <% else %>
+        <% count_time = times.count %><% i = 0 %>
+        <tr>
+            <td ROWSPAN= "<%= (times.count+1) %>" WIDTH="100" ALIGN="CENTER"  >Tu <%= times[count_time -1].strftime("%d-%m-%Y") %> den <%= times[0].strftime("%d-%m-%Y") %>  Email:<%= params[:email] %>
+                Group: <%= params[:group_name] %></td>
+        </tr>
+        <% (0..(count_time-1)).each do |i| %>
+          <tr>
+            <% for j in 0..count_catalog %>
+              <% check = 0 %>
+              <% user.report.each do |report| %>
+                <% if report.created_at.strftime("%d/%m/%Y") == times[count_time -1 -i].strftime("%d/%m/%Y") %>
+                  <% if catalogs[j].id == report.catalog_id %>
+                    <td><%= report.content%></td>
+                    <% check = 1 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% if check == 0 %>
+                <td>&nbsp;</td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+        <% end %>
+      <% end %>
+     <% end %>
+    <% end %>
+  </table>
+<% if params[:time_month].nil? %>
+  <% if params[:time_year].nil? %>
+  <% else %>
+    <%= link_to "Year" , reports_path(format: "xls", email: params[:emai], group_name: params[:group_name] , user_id: params[:user_id] , time_year: params[:time_year] ) , class:'btn btn-medium btn-primary'  %>
+  <% end %>
+<% else %>
+  <%= link_to "Month" , reports_path(format: "xls", email: params[:emai], group_name: params[:group_name] , user_id: params[:user_id] , time_month: params[:time_month] ) , class:'btn btn-medium btn-primary'  %>
+<% end %>
+

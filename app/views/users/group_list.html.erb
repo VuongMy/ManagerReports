@@ -1,0 +1,23 @@
+<h1>Group All</h1>
+<table class="table table-bordered" >
+	<tr>
+		<td>Email</td>
+		<td>Groups</td>
+		<td>Download Dailyreport</td>
+	</tr>
+	<% User.all.each do |user| %>
+		<tr>
+			<% time = user.created_at %>
+			<% t = Time.now %>
+			<% if user.group_id == current_user.group_id %>
+				<% group = Group.find_by_id(current_user.group_id) %>
+				<td><%= user.email %></td>
+				<td><%= group.group_name %></td>
+				<td>
+					<%= link_to "Month" , report_member_path(   email: user.email, group_name: group.group_name, user_id: user.id , time_month: t.month) , class:'btn btn-medium btn-primary'  %>
+					<%= link_to "Year" , report_member_path( email: user.email, group_name: group.group_name, user_id: user.id , time_year: t.year) , class:'btn btn-medium btn-primary'  %>
+				</td>
+			<% end %>
+		</tr>
+	<% end %>
+</table>

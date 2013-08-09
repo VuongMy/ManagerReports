@@ -1,0 +1,53 @@
+        chinh xac lay ngay
+        <%user.report.each do |report|%>
+          <% if i == 0 %>
+            <% times.push(report.created_at) %>
+            <% i=i+1%>
+          <% else %>
+            <% if report.created_at.strftime("%d/%m/%Y") != times[i-1].strftime("%d/%m/%Y")  %>
+              <% times.push(report.created_at) %>
+              <% i=i+1%>
+            <%end%>
+          <% end%>
+        <% end %>
+
+        <% count_time = times.count %><% i = 0 %>
+        <% (0..(count_time-1)).each do |i| %>
+          <tr>
+            <td><%= times[count_time -1 -i].strftime("%d-%m-%Y") %><%= count_time -1 %></td>
+            <% for j in 0..count_catalog %>
+              <% check = 0 %>
+              <% user.report.each do |report| %>
+                <% if report.created_at.strftime("%d/%m/%Y") == times[count_time -1 -i].strftime("%d/%m/%Y") %>
+                  <% if catalogs[j].id == report.catalog_id %>
+                    <td><%= report.content%></td>
+                    <% check = 1 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% if check == 0 %>
+                <td>&nbsp;</td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+
+
+           <!--     <% else %>
+            <% times = [] %><%i = 0 %>
+            <% week = params[:time_week].to_i - 1 %>
+            <%user.report.each do |report|%>
+              <% if (((report.created_at.day.to_i - Time.now.day.to_i )) == (-week) ) %>
+                <% times.push(report.created_at) %>
+              <% end%>
+            <% end %>
+            <%user.report.each do |report|%>
+              <% if ((report.created_at.day - times[0].day) < 7 && (report.created_at.day - times[0].day) > 0 ) %>
+                <% times.push(report.created_at) %>
+              <% end%>
+            <% end %>
+
+            <% count_time = times.count %><% i = 0 %>
+            <% (0..(count_time-1)).each do |i| %>
+              <td><%= times[i].strftime("%d-%m-%Y") %></td>
+            <% end %> -->
