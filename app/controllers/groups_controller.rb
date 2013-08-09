@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+	before_action :sign_in_user, only:[:index,:new,:create,:update,:destroy,:show]
 	before_action :admin_user, only:[:index,:new,:create,:update,:destroy,:show]
 
 	def index
@@ -59,7 +60,10 @@ class GroupsController < ApplicationController
 		def admin_user
 	      unless current_user.admin?
 	        store_location
-	        redirect_to root_url,notice: "Permission Denied"
+	        redirect_to current_user,notice: "Permission Denied"
 	      end
+	    end
+	    def sign_in_user
+	      redirect_to new_session_path, notice: "Please sign in." unless signed_in?
 	    end
 end

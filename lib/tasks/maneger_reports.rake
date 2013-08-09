@@ -13,7 +13,7 @@ def make_users
 	admin = User.create(email: "admin@framgia.com",
 						password: "123456",
 						password_confirmation: "123456" ,
-						admin: true )
+						admin: true , active: true )
 	50.times do |n|
 		email = "framgia-#{n+1}@framgia.com"
 		password = "1234560"

@@ -281,34 +281,21 @@ select {
 .table {
   td {
     background:#EEEEEE url('cell-grey.jpg');
-    border-width: 1px;
     padding: 8px;
-    border-style: solid ;
-    border-color: #999999;
+    border: 1px solid #999999;
     select {
       option {
-      height:10px;
-      padding:0;
-    }
+        height:10px;
+        padding:0;
+     }
       height:40px;
-      width:150px;
+      width:160px;
     }
   }
   td.inactive {
-    background:#FF0000 url('cell-grey.jpg');
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid ;
-    border-color: #999999;
-    select {
-      option {
-      height:10px;
-      padding:0;
+    a {
+      color:red;
     }
-      height:40px;
-      width:150px;
-    }
-
   }
 }
 
@@ -317,5 +304,11 @@ select {
   text-align: center;
   td {
     border: 1px solid $grayLighter;
+  }
+}
+
+#all_users {
+  td {
+    text-align:center;
   }
 }

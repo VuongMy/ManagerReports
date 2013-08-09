@@ -1,5 +1,6 @@
 class DailyReportsController < ApplicationController
   def home
+  	@report=Report.new
   end
 
   def help
