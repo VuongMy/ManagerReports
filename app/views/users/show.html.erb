@@ -7,13 +7,14 @@
       <%= link_to 'new report', new_report_path, class:'btn btn-small btn-primary'%>
       <br /><br /><br />
       <% group_manager = Group.find_by_id(@user.group_id) %>
-      <% if group_manager.manager_id == @user.id %>
-        <%= link_to "Report Group" , group_list_path ,class:'btn btn-medium btn-primary' %>
-      <% else %>
+      <%if group_manager %>
+            <% if group_manager.manager_id == @user.id %>
+              <%= link_to "Report Group" , group_list_path ,class:'btn btn-medium btn-primary' %>
+            <% end %>
       <% end %>
       </br> </br>
       <table id='show_report' width='100%'>
-      	<tr width='100%'>
+            <tr width='100%'>
       		<td width='15%'><b>Date created</b></td>
       		<td width='15%'><b>Title</b></td>
       		<td width='70'><b>Content</b></td>
