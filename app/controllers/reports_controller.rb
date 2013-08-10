@@ -1,5 +1,10 @@
 class ReportsController < ApplicationController
 
+	def new
+		@report=Report.new
+		@catalogs=Catalog.all
+	end
+
 	def index
 		@users = User.all
 		@reports = Report.order(:id)
@@ -20,6 +25,7 @@ class ReportsController < ApplicationController
 	def create
 		#check_size_file
 		@report = Report.new(report_params)
+		@report.user_id = current_user.id
 		if params[:report][:data].present?
 			file_name = params[:report][:data].original_filename
 			directory = 'public/datas'
@@ -28,13 +34,17 @@ class ReportsController < ApplicationController
 			@report.file_name = file_name
 	   		@report.paths = path
 	    end
-	    @report.user_id = current_user.id
+
 		if @report.save && (File.size(Pathname("public/datas/#{@report.file_name}")) <= 1000000)# || File.size(Pathname("public/datas/#{@report.file_name}")) ==0)  
 			redirect_to user_path(current_user)
 		else
-			flash.now[:error] = "Maximum of file upload is 1MB"
+			if params[:report][:data].present?
+				File.delete("public/datas/#{@report.file_name}") 
+				flash.now[:error] = "Maximum of file upload is 1MB"
+			end			
 			@report.destroy
 			render 'daily_reports/home'
+			
 		end
 	end
 
@@ -53,13 +63,14 @@ class ReportsController < ApplicationController
 				@report.file_name = file_name
 	   			@report.paths = path
 				if @report.save && params[:report][:data].size > 1000000
-					flash[:error] = "Maximum of file upload is 1MB"
-					render 'new'
+					flash.now[:error] = "Maximum of file upload is 1MB"
+					#redirect_to root_path
+					render 'daily_reports/home'
 				else
 					redirect_to user_path(current_user)
 				end
 			else
-				@report.file_name = @report.paths = ""
+				#@report.file_name = @report.paths = ""
 				@report.save
 				redirect_to user_path(current_user)
 			end
@@ -69,9 +80,4 @@ class ReportsController < ApplicationController
 			params.require(:report).permit(:catalog_id,:content, :file_name, :paths)
 		end
 
-		# def check_size_file
-		# 	if params[:report][:data].size < 1000000
-		# 		flash[:error] = "jjadsa"
-		# 	end
-		# end
 end

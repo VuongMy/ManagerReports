@@ -4,7 +4,7 @@
         All report of <%= @user.email.split('@framgia.com')[0] %><br />
       </h2>
       <br /><br /><br />
-      <%= link_to 'new report', new_report_path, class:'btn btn-small btn-primary'%>
+      <%= link_to 'new report', root_path, class:'btn btn-small btn-primary'%>
       <br /><br /><br />
       <% group_manager = Group.find_by_id(@user.group_id) %>
       <%if group_manager %>
