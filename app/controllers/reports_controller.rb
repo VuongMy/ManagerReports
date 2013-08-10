@@ -13,11 +13,6 @@ class ReportsController < ApplicationController
   		end
 	end
 
-	def new
-		@report=Report.new
-		@catalogs=Catalog.all
-	end
-
 	def show
 		@user = @user = User.find(params[:id])
 	end
@@ -37,9 +32,9 @@ class ReportsController < ApplicationController
 		if @report.save && (File.size(Pathname("public/datas/#{@report.file_name}")) <= 1000000)# || File.size(Pathname("public/datas/#{@report.file_name}")) ==0)  
 			redirect_to user_path(current_user)
 		else
-			flash[:error] = "Maximum of file upload is 1MB"
+			flash.now[:error] = "Maximum of file upload is 1MB"
 			@report.destroy
-			render 'new'
+			render 'daily_reports/home'
 		end
 	end
 

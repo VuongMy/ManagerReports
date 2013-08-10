@@ -11,7 +11,7 @@
       <%= f.label :manager_id %>
       <%= f.collection_select :manager_id, @group.user, :id, :email, include_blank:true %>
 
-    <%= f.submit "Update group", class: "btn btn-large btn-primary" %>
+    <%= f.submit "Update group", class: "btn btn-medium btn-primary" %>
     <% end %>
   </div>
 </div>
