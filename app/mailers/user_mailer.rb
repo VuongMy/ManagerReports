@@ -10,7 +10,7 @@ class UserMailer < ActionMailer::Base
 
   def activation(user)
   	@user = user
-  	mail(:to => "vuongmy91@gmail.com", :subject => "Have a account needs to be actived")
+  	mail(:to => "framgia.jp@gmail.com", :subject => "Have a account needs to be actived")
   end 
 
   def send_report(manager,user)
